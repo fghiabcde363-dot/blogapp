@@ -1,42 +1,26 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Halaman utama langsung ke daftar post
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// Dashboard juga diarahkan ke index post
+Route::get('/dashboard', [PostController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+// Profile (hanya untuk user login)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Rute yang memerlukan login (simulasi)
-Route::get('/posts', function () {
-    session()->flash('message', 'Please login or register to view posts.');
-    return redirect()->route('login');
-})->name('posts.index');
+// Route auth (login, register, logout)
+require __DIR__.'/auth.php';
 
-Route::get('/posts/create', function () {
-    session()->flash('message', 'Please login or register to create a post.');
-    return redirect()->route('login');
-})->name('posts.create');
+Route::resource('posts', PostController::class);
 
-Route::get('/posts/{id}', function ($id) {
-    session()->flash('message', 'Please login or register to view this post.');
-    return redirect()->route('login');
-})->name('posts.show');
-
-Route::get('/posts/{id}/edit', function ($id) {
-    session()->flash('message', 'Please login or register to edit this post.');
-    return redirect()->route('login');
-})->name('posts.edit');
-
-// Rute dummy untuk posts.destroy (simulasi)
-Route::post('/posts/{id}', function ($id) {
-    session()->flash('message', 'Please login or register to delete a post.');
-    return redirect()->route('login');
-})->name('posts.destroy');

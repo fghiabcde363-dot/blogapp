@@ -1,38 +1,50 @@
 @extends('layouts.app')
-@section('title', 'Edit Post')
+
+@section('title', 'Edit Postingan')
+
 @section('content')
-    <h1 class="text-center mb-4" style="color: #2c3e50;">Edit Post</h1>
-    <div class="card shadow-sm p-4" style="background-color: #ffffff;">
-        <form method="POST" action="{{ route('posts.update', $post['id']) }}" class="needs-validation" novalidate>
-            @csrf
-            @method('PUT')
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control" value="{{ $post['title'] }}" required>
-                <div class="invalid-feedback">Please enter a title.</div>
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea name="content" id="content" class="form-control" rows="4" required>{{ $post['content'] }}</textarea>
-                <div class="invalid-feedback">Please enter content.</div>
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
-    <script>
-        (function() {
-            'use strict';
-            var forms = document.querySelectorAll('.needs-validation');
-            Array.prototype.slice.call(forms).forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        })();
-    </script>
+<div class="max-w-2xl mx-auto mt-10 px-4">
+    <h1 class="text-2xl font-bold mb-6">Edit Postingan</h1>
+
+    <form action="{{ route('posts.update', $post) }}" method="POST" class="space-y-4">
+        @csrf
+        @method('PUT')
+
+        <div>
+            <label class="block mb-1 font-medium">Judul</label>
+            <input type="text" name="title" value="{{ old('title', $post->title) }}" class="w-full border rounded p-2" required>
+            @error('title') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Konten</label>
+            <textarea name="content" rows="6" class="w-full border rounded p-2" required>{{ old('content', $post->content) }}</textarea>
+            @error('content') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Kategori</label>
+            <select name="category_id" class="w-full border rounded p-2" required>
+                @foreach(\App\Models\Category::all() as $category)
+                    <option value="{{ $category->id }}" @selected($post->category_id == $category->id)>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('category_id') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        <div>
+            <label class="block mb-1 font-medium">Status</label>
+            <select name="status" class="w-full border rounded p-2">
+                <option value="draft" @selected($post->status === 'draft')>Draft</option>
+                <option value="published" @selected($post->status === 'published')>Publish</option>
+            </select>
+        </div>
+
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+            Update
+        </button>
+    </form>
+</div>
 @endsection
