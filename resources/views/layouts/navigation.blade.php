@@ -95,11 +95,11 @@
         </div>
     @endauth
 
-    @guest
-        <div class="px-4">
-            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
-        </div>
-    @endguest
+@guest
+    <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
+    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-600 hover:text-gray-900">Register</a>
+@endguest
+
 </div>
 
 </nav>
