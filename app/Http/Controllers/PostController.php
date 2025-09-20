@@ -10,15 +10,27 @@ use App\Models\Category;
 class PostController extends Controller
 {
     
-public function index()
+public function index(Request $request)
 {
-    $posts = Post::with(['category', 'author'])
-        ->where('status', 'published')
-        ->latest()
-        ->paginate(10);
+    $filter = $request->query('filter', 'public'); // default ke 'public'
 
-    return view('posts.index', compact('posts'));
+    if ($filter === 'mine' && Auth::check()) {
+        // Semua postingan milik user login (draft + published)
+        $posts = Post::with(['category', 'author'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->paginate(10);
+    } else {
+        // Postingan publik
+        $posts = Post::with(['category', 'author'])
+            ->where('status', 'published')
+            ->latest()
+            ->paginate(10);
+    }
+
+    return view('posts.index', compact('posts', 'filter'));
 }
+
 
     public function create()
     {

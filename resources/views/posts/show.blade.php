@@ -16,7 +16,7 @@
         {!! nl2br(e($post->content)) !!}
     </div>
 
-]    @guest
+  @guest
         <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center">
             <p class="mb-4 text-yellow-700">Ingin menulis artikel juga?</p>
             <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Login</a>
@@ -24,7 +24,7 @@
         </div>
     @endguest
 
-]    @auth
+    @auth
         @if(auth()->id() === $post->user_id)
             <div class="mt-8 flex gap-3">
                 <a href="{{ route('posts.edit', $post) }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Edit</a>
