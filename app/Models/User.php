@@ -29,7 +29,6 @@ class User extends Authenticatable
         ];
     }
 
-    // Relasi ke posts
     public function posts()
     {
         return $this->hasMany(Post::class);

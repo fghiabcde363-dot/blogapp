@@ -8,22 +8,22 @@
         <h1 class="text-2xl font-bold">Daftar Postingan</h1>
         <div class="flex items-center space-x-2 bg-gray-100 p-1 rounded-xl">
             <a href="{{ route('posts.index', ['filter' => 'public']) }}"
-        class="px-4 py-2 rounded-lg text-sm font-medium transition
+                class="px-4 py-2 rounded-lg text-sm font-medium transition
               {{ ($filter ?? 'public') === 'public'
                   ? 'bg-white text-gray-800 shadow'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200' }}">
-        Publik
-    </a>
+                Publik
+            </a>
 
-    @auth
-    <a href="{{ route('posts.index', ['filter' => 'mine']) }}"
-        class="px-4 py-2 rounded-lg text-sm font-medium transition
+            @auth
+            <a href="{{ route('posts.index', ['filter' => 'mine']) }}"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition
               {{ ($filter ?? '') === 'mine'
                   ? 'bg-white text-gray-800 shadow'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200' }}">
-        Postingan Saya
-    </a>
-    @endauth
+                Postingan Saya
+            </a>
+            @endauth
         </div>
 
         {{-- Tombol Create --}}
@@ -38,14 +38,12 @@
 
     </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    @forelse ($posts as $post)
-        <div 
-            @class([
-                'p-4 bg-white shadow rounded',
-                'md:col-span-2' => strlen(strip_tags($post->content)) > 100
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        @forelse ($posts as $post)
+        <div
+            @class([ 'p-4 bg-white shadow rounded' , 'md:col-span-2'=> strlen(strip_tags($post->content)) > 100
             ])
-        >
+            >
             <h2 class="text-xl font-semibold">{{ $post->title }}</h2>
 
             <p class="text-gray-700 mt-2">
@@ -63,25 +61,25 @@
 
                 @auth
                 @if ($post->user_id === Auth::id())
-                    <a href="{{ route('posts.edit', $post) }}" class="text-green-600 hover:underline">Edit</a>
+                <a href="{{ route('posts.edit', $post) }}" class="text-green-600 hover:underline">Edit</a>
 
-                    <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            onclick="return confirm('Yakin mau hapus?')"
-                            class="text-red-600 hover:underline">
-                            Hapus
-                        </button>
-                    </form>
+                <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                        onclick="return confirm('Yakin mau hapus?')"
+                        class="text-red-600 hover:underline">
+                        Hapus
+                    </button>
+                </form>
                 @endif
                 @endauth
             </div>
         </div>
-    @empty
+        @empty
         <p class="text-gray-600">Belum ada postingan.</p>
-    @endforelse
-</div>
+        @endforelse
+    </div>
 
 
 

@@ -9,27 +9,25 @@ use App\Models\Category;
 
 class PostController extends Controller
 {
-    
-public function index(Request $request)
-{
-    $filter = $request->query('filter', 'public'); // default ke 'public'
 
-    if ($filter === 'mine' && Auth::check()) {
-        // Semua postingan milik user login (draft + published)
-        $posts = Post::with(['category', 'author'])
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->paginate(10);
-    } else {
-        // Postingan publik
-        $posts = Post::with(['category', 'author'])
-            ->where('status', 'published')
-            ->latest()
-            ->paginate(10);
+    public function index(Request $request)
+    {
+        $filter = $request->query('filter', 'public');
+
+        if ($filter === 'mine' && Auth::check()) {
+            $posts = Post::with(['category', 'author'])
+                ->where('user_id', Auth::id())
+                ->latest()
+                ->paginate(10);
+        } else {
+            $posts = Post::with(['category', 'author'])
+                ->where('status', 'published')
+                ->latest()
+                ->paginate(10);
+        }
+
+        return view('posts.index', compact('posts', 'filter'));
     }
-
-    return view('posts.index', compact('posts', 'filter'));
-}
 
 
     public function create()
@@ -38,25 +36,25 @@ public function index(Request $request)
         return view('posts.create', compact('categories'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required',
-        'category_id' => 'required|exists:categories,id',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-Post::create([
-    'title'       => $request->title,
-    'content'     => $request->content,
-    'category_id' => $request->category_id,
-    'user_id'     => Auth::id(),
-    'status'      => $request->status ?? 'draft',
-]);
+        Post::create([
+            'title'       => $request->title,
+            'content'     => $request->content,
+            'category_id' => $request->category_id,
+            'user_id'     => Auth::id(),
+            'status'      => $request->status ?? 'draft',
+        ]);
 
 
-    return redirect()->route('posts.index');
-}
+        return redirect()->route('posts.index');
+    }
 
 
     public function show(Post $post)
@@ -70,23 +68,23 @@ Post::create([
         return view('posts.edit', compact('post', 'categories'));
     }
 
-public function update(Request $request, Post $post)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required',
-        'category_id' => 'required|exists:categories,id',
-    ]);
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-    $post->update([
-        'title'       => $request->title,
-        'content'     => $request->content,
-        'category_id' => $request->category_id, // konsisten
-        'status'      => $request->status ?? 'draft',
-    ]);
+        $post->update([
+            'title'       => $request->title,
+            'content'     => $request->content,
+            'category_id' => $request->category_id,
+            'status'      => $request->status ?? 'draft',
+        ]);
 
-    return redirect()->route('posts.show', $post);
-}
+        return redirect()->route('posts.show', $post);
+    }
 
     public function destroy(Post $post)
     {

@@ -25,7 +25,7 @@
             <label class="block mb-1 font-medium">Kategori</label>
             <select name="category_id" class="w-full border rounded p-2" required>
                 @foreach(\App\Models\Category::all() as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
             @error('category_id') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
