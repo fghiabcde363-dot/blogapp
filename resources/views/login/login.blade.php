@@ -20,29 +20,29 @@
                 <!-- Login Form -->
                 <div class="tab-pane fade show active" id="login" role="tabpanel">
                     <h2 class="text-center mb-4" style="color: #2c3e50;">Login</h2>
-<form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate autocomplete="off">
-    @csrf
-    
-    <!-- Dummy input biar auto-fill nggak nempel -->
-    <input type="text" name="fake_username" id="fake_username" class="d-none" autocomplete="username">
-    <input type="password" name="fake_password" id="fake_password" class="d-none" autocomplete="new-password">
+                    <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate autocomplete="off">
+                        @csrf
 
-    <div class="mb-3">
-        <label for="login_email" class="form-label">Email</label>
-        <input type="email" name="email" id="login_email" class="form-control" required autocomplete="off">
-        <div class="invalid-feedback">Please enter a valid email.</div>
-    </div>
-    <div class="mb-3">
-        <label for="login_password" class="form-label">Password</label>
-        <input type="password" name="password" id="login_password" class="form-control" required autocomplete="new-password">
-        <div class="invalid-feedback">Please enter your password.</div>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-</form>
+                        <!-- Dummy input biar auto-fill nggak nempel -->
+                        <input type="text" name="fake_username" id="fake_username" class="d-none" autocomplete="username">
+                        <input type="password" name="fake_password" id="fake_password" class="d-none" autocomplete="new-password">
+
+                        <div class="mb-3">
+                            <label for="login_email" class="form-label">Email</label>
+                            <input type="email" name="email" id="login_email" class="form-control" required autocomplete="off">
+                            <div class="invalid-feedback">Please enter a valid email.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login_password" class="form-label">Password</label>
+                            <input type="password" name="password" id="login_password" class="form-control" required autocomplete="new-password">
+                            <div class="invalid-feedback">Please enter your password.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
 
                     <!-- Ganti Remember me jadi ini -->
                     <p class="text-center mt-3">
-                        Don’t have an account? 
+                        Don’t have an account?
                         <a href="#register" class="text-decoration-none" data-bs-toggle="tab">Register</a>
                     </p>
                 </div>
@@ -81,18 +81,18 @@
 </div>
 
 <script>
-(function() {
-    'use strict';
-    var forms = document.querySelectorAll('.needs-validation');
-    Array.prototype.slice.call(forms).forEach(function(form) {
-        form.addEventListener('submit', function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-    });
-})();
+    (function() {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
 </script>
 @endsection

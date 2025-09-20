@@ -7,20 +7,17 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid gap-6 md:grid-cols-3">
-            <!-- Profil -->
             <div class="bg-white shadow rounded-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-2">Profil Kamu</h3>
                 <p><span class="font-bold">Nama:</span> {{ Auth::user()->name }}</p>
                 <p><span class="font-bold">Email:</span> {{ Auth::user()->email }}</p>
             </div>
 
-            <!-- Statistik 1 -->
             <div class="bg-white shadow rounded-lg p-6 text-center">
                 <h3 class="text-lg font-semibold text-gray-700">Jumlah Postingan</h3>
                 <p class="text-2xl font-bold text-gray-900 mt-2">12</p>
             </div>
 
-            <!-- Statistik 2 -->
             <div class="bg-white shadow rounded-lg p-6 text-center">
                 <h3 class="text-lg font-semibold text-gray-700">Komentar</h3>
                 <p class="text-2xl font-bold text-gray-900 mt-2">34</p>
